@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 import mysql.connector
+import os
 
 app = Flask(__name__)
 
@@ -22,16 +23,17 @@ def get_db_connection():
 def get_jobs():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM jobs_indeed_finance")  # Đảm bảo bảng `jobs` tồn tại trong cơ sở dữ liệu của bạn
+    cursor.execute("SELECT * FROM jobs_indeed_finance")  # Đảm bảo bảng `jobs_indeed_finance` tồn tại trong cơ sở dữ liệu của bạn
     jobs = cursor.fetchall()
     cursor.close()
     connection.close()
     return jsonify(jobs)
 
-# Endpoint cho root URL
+# Route chính
 @app.route('/')
 def home():
-    return "Welcome to the Flask App!"
+    return "Welcome to my Flask app!"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
