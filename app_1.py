@@ -29,6 +29,11 @@ def get_jobs():
     connection.close()
     return jsonify(jobs)
 
+# Endpoint cho root URL
+@app.route('/')
+def home():
+    return "Welcome to the Flask App!"
+
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5001))
+    port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
