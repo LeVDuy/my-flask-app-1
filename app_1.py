@@ -1,39 +1,29 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 import mysql.connector
 import os
 
 app = Flask(__name__)
+CORS(app)
 
-# Cấu hình để kết nối đến cơ sở dữ liệu
-db_config = {
-    'user': 'admin1',
-    'password': 'levanduy98',
-    'host': 'database1.cx8wai4u8ztf.eu-west-3.rds.amazonaws.com',
-    'port': 3306,
-    'database': 'test1'
-}
+# Lấy URL cơ sở dữ liệu từ biến môi trường
+database_url = os.getenv('DATABASE_URL')
 
-# Kết nối đến cơ sở dữ liệu
 def get_db_connection():
-    connection = mysql.connector.connect(**db_config)
-    return connection
+    return mysql.connector.connect(database_url)
 
-# Endpoint để lấy tất cả công việc
 @app.route('/api/jobs', methods=['GET'])
 def get_jobs():
-    connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM jobs_indeed_finance")  # Đảm bảo bảng `jobs_indeed_finance` tồn tại trong cơ sở dữ liệu của bạn
-    jobs = cursor.fetchall()
-    cursor.close()
-    connection.close()
-    return jsonify(jobs)
-
-# Route chính
-@app.route('/')
-def home():
-    return "Welcome to my Flask app!"
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM jobs")
+        jobs = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return jsonify(jobs)
+    except mysql.connector.Error as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0',port=port)
+    app.run(debug=True)
