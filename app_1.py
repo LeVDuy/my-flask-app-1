@@ -24,16 +24,20 @@ def get_jobs():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
     cursor.execute("SELECT * FROM jobs_indeed_finance")  # Đảm bảo bảng `jobs_indeed_finance` tồn tại trong cơ sở dữ liệu của bạn
-    jobs = cursor.fetchall()
+    rows = cursor.fetchall()
     cursor.close()
     connection.close()
+    jobs = []
+    for row in rows:
+        jobs.append({
+            'ID': row['ID'],
+            'Iitle': row['Title'],
+            'Location' : row['Location'],
+            'Salaire' : row['Salaire'],
+            'Description': row['Description'],
+            'URL': row['URL']
+        })
     return jsonify(jobs)
 
-# Route chính
-@app.route('/')
-def home():
-    return "Welcome to my Flask app!"
-
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0',port=port)
+    app.run(debug=True)
