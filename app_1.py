@@ -13,21 +13,21 @@ db_config = {
     'database': 'test1'
 }
 
-# Kết nối đến cơ sở dữ liệu
-def get_db_connection():
-    connection = mysql.connector.connect(**db_config)
-    return connection
+# # Kết nối đến cơ sở dữ liệu
+# def get_db_connection():
+#     connection = mysql.connector.connect(**db_config)
+#     return connection
 
-# Endpoint để lấy tất cả công việc
-@app.route('/api/jobs', methods=['GET'])
-def get_jobs():
-    connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM jobs_indeed_finance")  # Đảm bảo bảng `jobs_indeed_finance` tồn tại trong cơ sở dữ liệu của bạn
-    jobs = cursor.fetchall()
-    cursor.close()
-    connection.close()
-    return jsonify(jobs)
+# # Endpoint để lấy tất cả công việc
+# @app.route('/api/jobs', methods=['GET'])
+# def get_jobs():
+#     connection = get_db_connection()
+#     cursor = connection.cursor(dictionary=True)
+#     cursor.execute("SELECT * FROM jobs_indeed_finance")  # Đảm bảo bảng `jobs_indeed_finance` tồn tại trong cơ sở dữ liệu của bạn
+#     jobs = cursor.fetchall()
+#     cursor.close()
+#     connection.close()
+#     return jsonify(jobs)
 
 # Route chính
 @app.route('/')
