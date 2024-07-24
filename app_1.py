@@ -5,11 +5,11 @@ app = Flask(__name__)
 
 # Cấu hình để kết nối đến cơ sở dữ liệu
 db_config = {
-    'user': 'admin1',
-    'password': 'levanduy98',
-    'host': 'database1.cx8wai4u8ztf.eu-west-3.rds.amazonaws.com',
-    'port': 3306,
-    'database': 'test1'
+    'user': '',
+    'password': '',
+    'host': '',
+    'port': ,
+    'database': ''
 }
 
 # Kết nối đến cơ sở dữ liệu
