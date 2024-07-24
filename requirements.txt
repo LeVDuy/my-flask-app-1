@@ -4,6 +4,5 @@ Werkzeug==2.2.3
 gunicorn==22.0.0
 flask_cors == 4.0.1
 Jinja2>=3.0
-tsdangerous>=2.0
 click>=8.0
 MarkupSafe>=2.1.1
